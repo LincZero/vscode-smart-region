@@ -1,6 +1,6 @@
 {
   "name": "smart-region",
-  "displayName": "SmartRegion",
+  "displayName": "Smart Region",
   "description": "Smartly create regions",
   "version": "0.0.1",
   "engines": {
@@ -17,7 +17,27 @@
         "command": "smart-region.helloWorld",
         "title": "Smart region test"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Smart Region",
+      "properties": {
+        "smartRegion.enableIndentEnd": {
+          "type": "boolean",
+          "default": true,
+          "description": "缩进敏感：遇到更小缩进的行会结束 region (若关闭，所有分割线都视为顶格)"
+        },
+        "smartRegion.enableHighlight": {
+          "type": "boolean",
+          "default": false,
+          "description": "为 region 区域添加背景色高亮 (类似 highlight-region 插件)"
+        },
+        "smartRegion.highlightColor": {
+          "type": "string",
+          "default": "rgba(100, 150, 255, 0.10)",
+          "description": "region 区域背景色，支持任意 CSS 颜色 (如 rgba(...)、#RRGGBB、theme token)"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
