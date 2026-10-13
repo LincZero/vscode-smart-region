@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
   // 该命令已在 package.json 文件中定义
   // 现在通过 registerCommand 提供该命令的实现
   // commandId 参数必须与 package.json 中的 command 字段匹配
-  const disposable = vscode.commands.registerCommand('smart-region.helloWorld', () => {
+  const disposable = vscode.commands.registerCommand('smart-region.helloWorld', () => { // 注册命令
     // 你放在这里的代码会在每次执行该命令时运行
     // 向用户显示消息框
     vscode.window.showInformationMessage('Hello World from SmartRegion!');
