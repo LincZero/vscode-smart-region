@@ -10,6 +10,8 @@ No configuration or startup is required. It works out of the box.
 
 You can use comment separators `# ---` / `// ---` / `/* ---` to conveniently and quickly define collapsible regions.
 
+The section will be automatically ended by indentation or the "next delimiter comment". It can also be manually ended by a comment without a title.
+
 ## Installation
 
 Search for `Smart Region` in the extension marketplace and install it.

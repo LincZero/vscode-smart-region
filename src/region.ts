@@ -81,6 +81,7 @@ export function computeRegions(
  *   - 规则 3：扫描到文档末尾 → 结束于文档最后一行
  *   - 补充 1: 空行不参与边界判定
  *   - 补充 2: (TODO) 跨行字符串也不应该参与边界判定
+ *   - 补充 3: 无 title 的分割线不作为 region 开始节点，但会作为 region 结束节点。可用于手动结束。
  *
  * @param document   当前文档
  * @param separators 已收集的全部分割线列表
@@ -94,15 +95,17 @@ function findRangeEnd(
   i: number,
   token?: vscode.CancellationToken
 ): { startLine: number; endLine: number } {
-  const { line: startLine, indent: currentIndent } = separators[i];
+  const { line: startLine, indent: currentIndent, label } = separators[i];
 
   // (规则3) 默认结束于文档最后一行
   let endLine = document.lineCount - 1;
 
   for (let line = startLine + 1; line < document.lineCount; line++) {
     if (token?.isCancellationRequested) {
-      // 取消时返回一个退化的空范围，交由调用方过滤
-      return { startLine, endLine: startLine };
+      return { startLine, endLine: startLine }; // 取消: 返回一个退化的空范围，交由调用方过滤
+    }
+    if (!label || label.trim() === '') { // 无 title 时，仅作为结束标志，不作为开始标志
+      return { startLine, endLine: startLine }; // 取消: 返回一个退化的空范围，交由调用方过滤
     }
 
     const text = document.lineAt(line).text;
