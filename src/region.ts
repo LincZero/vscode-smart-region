@@ -134,3 +134,15 @@ function findRangeEnd(
 
   return { startLine, endLine };
 }
+
+export class SmartRegionFoldingProvider implements vscode.FoldingRangeProvider {
+  provideFoldingRanges(
+    document: vscode.TextDocument, // 文档文档内容
+    _context: vscode.FoldingContext,
+    token: vscode.CancellationToken
+  ): vscode.FoldingRange[] {
+    return computeRegions(document, token).map(
+      r => new vscode.FoldingRange(r.startLine, r.endLine, vscode.FoldingRangeKind.Region)
+    );
+  }
+}
