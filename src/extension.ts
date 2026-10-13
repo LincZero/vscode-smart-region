@@ -23,7 +23,7 @@ class SmartRegionFoldingProvider implements vscode.FoldingRangeProvider {
 
 /// 当你的扩展被激活时会调用此方法
 export function activate(context: vscode.ExtensionContext) {
-  // --- commands
+  // --- commands ---
   {
     let disposable = vscode.commands.registerCommand('smart-region.toggle', () => {
       vscode.window.showInformationMessage('待开发');
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
   }
 
-  // --- region 区域
+  // --- region 区域 ---
   {
     const provider = new SmartRegionFoldingProvider();
 
@@ -51,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
   }
 
-  // --- region 高亮
+  // --- region 高亮 ---
   {
     const highlighter = new RegionHighlighter();
     context.subscriptions.push(highlighter);

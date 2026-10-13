@@ -2,9 +2,17 @@
 
 智能地、便携地、无感地、快速声明 region 选区，并优化 region 选区的显示
 
-> 无需配置和启动，开箱即用。
-> 
-> 允许用注释分割线 `# ---` / `// ---` / `/* ---` 便捷快速地定义可折叠区域
+## 使用
+
+无需配置和启动，开箱即用。
+
+允许用注释分割线 `# ---` / `// ---` / `/* ---` 便捷快速地定义可折叠区域
+
+## 安装
+
+扩展商店搜索 `Smart Region` 并安装。
+
+或者在 github release 页面手动下载 `.visx` 文件，然后在 vscode 扩展处点击三个点的图标 > "从 VISX 安装"
 
 ## 特性
 
@@ -60,3 +68,10 @@ function render() { ... }
 
 并且，在注释中添加 `---` 分割线也是很多人的注释使用习惯之一，哪怕没有该插件。
 所以并不会带来额外的语法，代码依旧清晰可读。
+
+## Deploy
+
+```bash
+vsce package
+vsce publish # 或手动发布于 https://marketplace.visualstudio.com/manage/publishers/linczero
+```
