@@ -7,6 +7,7 @@
 
 import * as vscode from 'vscode';
 import { computeRegions } from './region';
+import { RegionHighlighter } from './highlight';
 
 class SmartRegionFoldingProvider implements vscode.FoldingRangeProvider {
   provideFoldingRanges(
@@ -22,20 +23,16 @@ class SmartRegionFoldingProvider implements vscode.FoldingRangeProvider {
 
 /// 当你的扩展被激活时会调用此方法
 export function activate(context: vscode.ExtensionContext) {
-  // --- debug
+  // --- commands
   {
-    // 使用控制台输出诊断信息（console.log）和错误信息（console.error）
-    // 这行代码只会在你的扩展被激活时执行一次
-    console.log('Congratulations, your extension "smart-region" is now active!');
-
-    // 该命令已在 package.json 文件中定义
-    // 现在通过 registerCommand 提供该命令的实现
-    // commandId 参数必须与 package.json 中的 command 字段匹配
-    const disposable = vscode.commands.registerCommand('smart-region.helloWorld', () => { // 注册命令
-      // 你放在这里的代码会在每次执行该命令运行时向用户显示消息框
-      vscode.window.showInformationMessage('Hello World from SmartRegion!');
+    let disposable = vscode.commands.registerCommand('smart-region.toggle', () => {
+      vscode.window.showInformationMessage('待开发');
     });
+    context.subscriptions.push(disposable);
 
+    disposable = vscode.commands.registerCommand('smart-region.toggleHighlight', () => {
+      vscode.window.showInformationMessage('待开发');
+    });
     context.subscriptions.push(disposable);
   }
 
@@ -55,7 +52,44 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   // --- region 高亮
-  // (未开发)
+  {
+    const highlighter = new RegionHighlighter();
+    context.subscriptions.push(highlighter);
+
+    // 刷新视图
+    const refreshAll = () => {
+      for (const editor of vscode.window.visibleTextEditors) {
+        highlighter.update(editor);
+      }
+    };
+    refreshAll(); // 初始刷新
+
+    // 切换活动编辑器 / 可见编辑器集合变化
+    context.subscriptions.push(
+      vscode.window.onDidChangeActiveTextEditor(editor => highlighter.update(editor)),
+      vscode.window.onDidChangeVisibleTextEditors(editors => {
+        for (const editor of editors) { highlighter.update(editor); }
+      })
+    );
+
+    // 监听文档内容变化
+    context.subscriptions.push(
+      vscode.workspace.onDidChangeTextDocument(e => {
+        const editor = vscode.window.visibleTextEditors.find(ed => ed.document === e.document);
+        if (editor) { highlighter.update(editor); }
+      })
+    );
+
+    // 监听配置变化：颜色/开关可能变化 → 重建装饰并全量刷新
+    context.subscriptions.push(
+      vscode.workspace.onDidChangeConfiguration(e => {
+        if (e.affectsConfiguration('smartRegion')) {
+          highlighter.dispose();
+          refreshAll();
+        }
+      })
+    );
+  }
 }
 
 /// 当你的扩展被停用时会调用此方法

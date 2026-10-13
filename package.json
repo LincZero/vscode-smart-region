@@ -14,8 +14,14 @@
   "contributes": {
     "commands": [
       {
-        "command": "smart-region.helloWorld",
-        "title": "Smart region test"
+        "command": "smart-region.toggle",
+        "title": "Smart Region: 开启/关闭插件功能",
+        "category": "Smart Region"
+      },
+      {
+        "command": "smart-region.toggleHighlight",
+        "title": "Smart Region: 开启/关闭高亮",
+        "category": "Smart Region"
       }
     ],
     "configuration": {
@@ -28,12 +34,12 @@
         },
         "smartRegion.enableHighlight": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "为 region 区域添加背景色高亮 (类似 highlight-region 插件)"
         },
         "smartRegion.highlightColor": {
           "type": "string",
-          "default": "rgba(100, 150, 255, 0.10)",
+          "default": "rgba(100, 150, 255, 0.08)",
           "description": "region 区域背景色，支持任意 CSS 颜色 (如 rgba(...)、#RRGGBB、theme token)"
         }
       }
