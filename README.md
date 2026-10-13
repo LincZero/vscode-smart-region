@@ -72,6 +72,7 @@ function render() { ... }
 ## Deploy
 
 ```bash
+# 修改 package.json 的 "version": "0.0.2",
 vsce package
 vsce publish # 或手动发布于 https://marketplace.visualstudio.com/manage/publishers/linczero
 ```

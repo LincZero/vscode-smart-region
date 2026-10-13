@@ -4,7 +4,7 @@
   "description": "Smartly create regions",
   "repository": "https://github.com/LincZero/vscode-smart-region",
   "publisher": "LincZero",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.84.0"
   },
