@@ -27,17 +27,17 @@ As long as you use a line of "separator comment" as a title in your code, it wil
 def foo(): ...
 def bar(): ...
 
-# --- Business logic ---
+# --- Business logic ------
 class Service:
     ...
 ```
 
 ```typescript
-// --- Data layer ---
+// --- Data layer ---------
 function load() { ... }
 function save() { ... }
 
-// --- View layer ---
+// --- View layer ---------
 function render() { ... }
 ```
 
@@ -45,9 +45,9 @@ A comment will be recognized as a separator if it matches one of the following f
 
 | Language style | Example |
 | --- | --- |
-| Shell / Python / YAML | `# --- Title ---` |
-| C / JS / TS / Go / Rust | `// --- Title ---` |
-| C-style block comment | `/* --- Title ---` |
+| Shell / Python / YAML | `# --- Title` |
+| C / JS / TS / Go / Rust | `// --- Title` |
+| C-style block comment | `/* --- Title` |
 
 The number of `-` characters must be **3 or more**.
 
