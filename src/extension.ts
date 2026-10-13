@@ -40,12 +40,20 @@ export function activate(context: vscode.ExtensionContext) {
   {
     const provider = new SmartRegionFoldingProvider();
 
-    // 注册给所有文件类型。也可以改成按语言列表：
-    // [{ language: 'python' }, { language: 'typescript' }, ...]
-    // { scheme: 'file' }, 对未保存文件（untitled）、虚拟文档等不会生效
+    // 注册给对应的文件类型
+    const supportedLanguages = [
+      'javascript', 'typescript', 'java', 'python', 'ruby',
+      'csharp', 'cpp', 'go', 'rust', 'php', 'shellscript',
+    ];
+    const selector: vscode.DocumentSelector = supportedLanguages.map(
+      lang => ({
+        scheme: '*', // 或 `{ scheme: 'file' }`, 对未保存文件（untitled）、虚拟文档等不会生效
+        language: lang
+      })
+    );
     context.subscriptions.push(
       vscode.languages.registerFoldingRangeProvider( // 注册折叠范围提供程序
-        { scheme: '*' },
+        selector, 
         provider
       )
     );
