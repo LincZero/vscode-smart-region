@@ -1,3 +1,5 @@
+[中文](./README.zh.md) | [English](./README.md)
+
 # Smart Region
 
 Declare region selections intelligently, portably, seamlessly, and quickly, and optimize how region selections are displayed.
