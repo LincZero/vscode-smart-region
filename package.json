@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "smart-region.helloWorld",
-        "title": "Hello World"
+        "title": "Smart region test"
       }
     ]
   },
