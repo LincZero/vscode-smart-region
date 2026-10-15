@@ -37,11 +37,12 @@ export function computeRegions(
   document: vscode.TextDocument,
   token?: vscode.CancellationToken
 ): RegionRange[] {
+  const cfg = vscode.workspace.getConfiguration('smartRegion');
+  // 配置项：插件总开关，默认 true。关闭时不识别任何 region（折叠与高亮同时失效）。
+  if (!cfg.get<boolean>('enable', true)) { return []; }
   // 配置项：缩进敏感，默认 true。
   // 若为 false，则视为所有分割线注释都在顶列，规则 2 失效。
-  const enableIndentEnd = vscode.workspace
-    .getConfiguration('smartRegion')
-    .get<boolean>('enableIndentEnd', true);
+  const enableIndentEnd = cfg.get<boolean>('enableIndentEnd', true);
 
   // 第一遍：遍历文档，收集所有分割线注释行
   const separators: SeparatorLine[] = [];

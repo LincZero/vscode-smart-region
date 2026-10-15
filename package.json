@@ -16,6 +16,11 @@
   "contributes": {
     "commands": [
       {
+        "command": "smart-region.refresh",
+        "title": "Smart Region: 手动刷新当前视图",
+        "category": "Smart Region"
+      },
+      {
         "command": "smart-region.toggle",
         "title": "Smart Region: 开启/关闭插件功能",
         "category": "Smart Region"
@@ -29,6 +34,11 @@
     "configuration": {
       "title": "Smart Region",
       "properties": {
+        "smartRegion.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "插件总开关：关闭后不识别任何 region (折叠与高亮同时失效)"
+        },
         "smartRegion.enableIndentEnd": {
           "type": "boolean",
           "default": true,

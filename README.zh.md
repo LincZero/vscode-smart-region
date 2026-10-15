@@ -104,3 +104,4 @@ vsce publish # 或手动发布于 https://marketplace.visualstudio.com/manage/pu
 - 支持更多分割线风格
   - 并支持层级关系
 - [x] 支持手动终止 (利用无 title 分割线不会作为开始标志，来作为手动结束标识)
+  - [ ] 功能建议(?): 使用双空行来手动终止

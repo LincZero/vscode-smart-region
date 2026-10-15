@@ -19,13 +19,27 @@ const SupportedLanguages = [
 export function activate(context: vscode.ExtensionContext) {
   // --- commands ---
   {
-    let disposable = vscode.commands.registerCommand('smart-region.toggle', () => {
-      vscode.window.showInformationMessage('待开发');
+    // 手动刷新当前视图
+    let disposable = vscode.commands.registerCommand('smart-region.refresh', async () => {
+      vscode.window.showInformationMessage(`Smart Region：刷新成功`);
     });
     context.subscriptions.push(disposable);
 
-    disposable = vscode.commands.registerCommand('smart-region.toggleHighlight', () => {
-      vscode.window.showInformationMessage('待开发');
+    // 切换插件总开关
+    disposable = vscode.commands.registerCommand('smart-region.toggle', async () => {
+      const cfg = vscode.workspace.getConfiguration('smartRegion');
+      const next = !cfg.get<boolean>('enable', true);
+      await cfg.update('enable', next, vscode.ConfigurationTarget.Global);
+      vscode.window.showInformationMessage(`Smart Region：插件功能已${next ? '开启' : '关闭'}`);
+    });
+    context.subscriptions.push(disposable);
+
+    // 切换高亮开关
+    disposable = vscode.commands.registerCommand('smart-region.toggleHighlight', async () => {
+      const cfg = vscode.workspace.getConfiguration('smartRegion');
+      const next = !cfg.get<boolean>('enableHighlight', true);
+      await cfg.update('enableHighlight', next, vscode.ConfigurationTarget.Global);
+      vscode.window.showInformationMessage(`Smart Region：高亮已${next ? '开启' : '关闭'}`);
     });
     context.subscriptions.push(disposable);
   }
