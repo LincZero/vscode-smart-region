@@ -4,7 +4,7 @@
   "description": "Smartly create regions",
   "repository": "https://github.com/LincZero/vscode-smart-region",
   "publisher": "LincZero",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -118,7 +118,8 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/vscode": "^1.84.0",
