@@ -9,17 +9,25 @@ import * as vscode from 'vscode';
 import { SmartRegionFoldingProvider } from './region';
 import { RegionHighlighter } from './highlight';
 
-// 语言列表
-const SupportedLanguages = [
-  'javascript', 'typescript', 'java', 'python', 'ruby',
-  'csharp', 'cpp', 'go', 'rust', 'php', 'shellscript',
-];
+/**
+ * 读取用户配置的启用语言列表。
+ * 空数组或非法值回退到默认语言列表。
+ */
+function getConfiguredLanguages(): string[] {
+  const langs = vscode.workspace
+    .getConfiguration('smartRegion')
+    .get<string[]>('languages');
+  return Array.isArray(langs) ? langs : [
+    'javascript', 'typescript', 'java', 'python', 'ruby',
+    'csharp', 'cpp', 'go', 'rust', 'php', 'shellscript',
+  ];
+}
 
 /// 当你的扩展被激活时会调用此方法
 export function activate(context: vscode.ExtensionContext) {
   // --- commands ---
   {
-    // 手动刷新当前视图
+    // 手动刷新当前视图 (并不会真刷新，只是避免 "activationEvents": ["onStartupFinished"] 失效)
     let disposable = vscode.commands.registerCommand('smart-region.refresh', async () => {
       vscode.window.showInformationMessage(`Smart Region：刷新成功`);
     });
@@ -47,19 +55,29 @@ export function activate(context: vscode.ExtensionContext) {
   // --- region 区域 ---
   {
     const provider = new SmartRegionFoldingProvider();
+    let foldingDisposable: vscode.Disposable | undefined;
 
-    // 注册给对应的文件类型
-    const selector: vscode.DocumentSelector = SupportedLanguages.map(
-      lang => ({
-        scheme: '*', // 或 `{ scheme: 'file' }`, 对未保存文件（untitled）、虚拟文档等不会生效
-        language: lang
-      })
-    );
+    // 按配置的语言列表注册折叠提供程序
+    const registerFolding = () => {
+      foldingDisposable?.dispose();
+      const selector: vscode.DocumentSelector = getConfiguredLanguages().map(
+        lang => ({
+          scheme: '*', // 或改为 `'file'`, 则对未保存文件（untitled）、虚拟文档等不会生效
+          language: lang
+        })
+      );
+      foldingDisposable = vscode.languages.registerFoldingRangeProvider(selector, provider);
+    };
+    registerFolding();
+    context.subscriptions.push({ dispose: () => foldingDisposable?.dispose() });
+
+    // 语言列表变化时重新注册折叠提供程序
     context.subscriptions.push(
-      vscode.languages.registerFoldingRangeProvider( // 注册折叠范围提供程序
-        selector, 
-        provider
-      )
+      vscode.workspace.onDidChangeConfiguration(e => {
+        if (e.affectsConfiguration('smartRegion.languages')) {
+          registerFolding();
+        }
+      })
     );
   }
 
@@ -71,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
     // 统一入口：只有受支持的语言才更新
     const updateIfSupported = (editor: vscode.TextEditor | undefined) => {
       if (!editor) { return; }
-      if (!SupportedLanguages.includes(editor.document.languageId)) { return; }
+      if (!getConfiguredLanguages().includes(editor.document.languageId)) { return; }
       highlighter.update(editor);
     };
 

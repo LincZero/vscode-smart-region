@@ -11,7 +11,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -34,6 +36,26 @@
     "configuration": {
       "title": "Smart Region",
       "properties": {
+        "smartRegion.languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "javascript",
+            "typescript",
+            "java",
+            "python",
+            "ruby",
+            "csharp",
+            "cpp",
+            "go",
+            "rust",
+            "php",
+            "shellscript"
+          ],
+          "description": "启用 region 功能的语言 ID 列表 (折叠与高亮同时生效)。留空时回退到默认语言列表"
+        },
         "smartRegion.enable": {
           "type": "boolean",
           "default": true,
