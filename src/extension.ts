@@ -61,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
       highlighter.update(editor);
     };
 
-    // 刷新视图
+    // 刷新所有编辑器窗口的视图
     const refreshAll = () => {
       for (const editor of vscode.window.visibleTextEditors) {
         updateIfSupported(editor);
@@ -77,7 +77,7 @@ export function activate(context: vscode.ExtensionContext) {
       })
     );
 
-    // 监听文档内容变化
+    // 监听: 文档内容变化 -> 更新视图
     context.subscriptions.push(
       vscode.workspace.onDidChangeTextDocument(e => {
         const editor = vscode.window.visibleTextEditors.find(ed => ed.document === e.document);
@@ -85,7 +85,7 @@ export function activate(context: vscode.ExtensionContext) {
       })
     );
 
-    // 监听配置变化：颜色/开关可能变化 → 重建装饰并全量刷新
+    // 监听: 配置变化：颜色/开关可能变化 → 重建装饰并全量刷新
     context.subscriptions.push(
       vscode.workspace.onDidChangeConfiguration(e => {
         if (e.affectsConfiguration('smartRegion')) {

@@ -42,7 +42,40 @@
         "smartRegion.highlightColor": {
           "type": "string",
           "default": "rgba(100, 150, 255, 0.08)",
-          "description": "region 区域背景色，支持任意 CSS 颜色 (如 rgba(...)、#RRGGBB、theme token)"
+          "description": "region 区域背景色，支持任意 CSS 颜色 (如 rgba(...)、#RRGGBB、theme token)。仅当 smartRegion.highlightTheme 为 \"Single Color\" 时生效"
+        },
+        "smartRegion.highlightTheme": {
+          "type": "string",
+          "default": "LincZero",
+          "enum": [
+            "LincZero",
+            "Rainbow",
+            "Day3024",
+            "Morandi",
+            "Custom Theme",
+            "Single Color"
+          ],
+          "enumDescriptions": [
+            "个人风格主题：LincZero",
+            "内置主题：彩虹 (红/橙/黄/绿/蓝/紫 轮换)",
+            "内置主题：Day3024",
+            "内置主题：莫兰迪",
+            "使用 smartRegion.customTheme 中的自定义颜色数组",
+            "单一颜色：始终使用 smartRegion.highlightColor"
+          ],
+          "description": "region 高亮的颜色风格，可直接切换内置主题，也可选择自定义主题或单一颜色"
+        },
+        "smartRegion.customTheme": {
+          "type": "array",
+          "default": [
+            "#FF00001A",
+            "#FF45001A",
+            "#FFFF0026",
+            "#90EE9026",
+            "#0000FF0D",
+            "#8000801A"
+          ],
+          "description": "自定义主题的颜色数组，仅当 smartRegion.highlightTheme 为 \"Custom Theme\" 时生效。支持 `Array<color>` 或 `Array<{ label, color }>` 两种写法；数组长度为 1 时始终只用这一种颜色，长度为 n 时每着色 n 次轮换一次"
         }
       }
     }
