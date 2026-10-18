@@ -18,8 +18,10 @@ function getConfiguredLanguages(): string[] {
     .getConfiguration('smartRegion')
     .get<string[]>('languages');
   return Array.isArray(langs) ? langs : [
-    'javascript', 'typescript', 'java', 'python', 'ruby',
-    'csharp', 'cpp', 'go', 'rust', 'php', 'shellscript',
+    'java', 'python', 'cpp', 'rust',
+    'javascript', 'typescript', 'php', 'go', 
+    'csharp', 'ruby', 'shellscript',
+    'css', 'scss',
   ];
 }
 
